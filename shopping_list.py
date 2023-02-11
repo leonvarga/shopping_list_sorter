@@ -56,6 +56,7 @@ def ask_user_for_section_order(db):
     nl = '\n'
 
     question = f"These are the available sections: \n {nl.join([_get_section_str(section_id, section) for section_id, section in enumerate(db['sections'])])}\n"
+    question += "The old order was: {db['section_order_old']}"
     question += "Which is the section order? (Please provide a space-separated list of the section ids)\n" 
 
     order = ''
@@ -89,11 +90,17 @@ if __name__ == '__main__':
         shopping_list_file = open(opt.shopping_list_path, "r").readlines()
 
         for item in shopping_list_file:
-            if item.startswith('#'):
-                print(f"# Ignore comment: {item}")
-
-
             item = item.replace('\n', '')
+
+            if len(item.replace(" ", "")) == 0:
+                print("# Ignore empty row")
+                continue
+
+            if item.startswith('#') or item.startswith('!'):
+                print(f"# Ignore comment: {item}")
+                continue
+
+
             item_simplified = standarize_name(item)
             item_section = find_item_section(item_simplified, db)
 
@@ -119,6 +126,8 @@ if __name__ == '__main__':
                         })
                     item_section = ui_section
                     opt.override_section_order = True
+                    if len(db['section_order']) > 0:
+                        db['section_order_old'] = db['section_order']
                     db['section_order'] = []
 
                     save_db(db)
