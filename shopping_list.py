@@ -56,7 +56,7 @@ def ask_user_for_section_order(db):
     nl = '\n'
 
     question = f"These are the available sections: \n {nl.join([_get_section_str(section_id, section) for section_id, section in enumerate(db['sections'])])}\n"
-    question += f"The old order was: {' '.join(db['section_order_old'])}\n"
+    question += f"The old order was: {' '.join([str(i) for i in db['section_order_old']])}\n"
     question += "Which is the section order? (Please provide a space-separated list of the section ids)\n" 
 
     order = ''
