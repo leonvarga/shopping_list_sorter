@@ -20,6 +20,17 @@ def append_match_to_bracket(item, match):
 
     return item
 
+def remove_match(item, match):
+    old_item = item
+    if match is not None:
+        assert len(match.groups()) == 1
+        print(match.span(0))
+        item = ''.join([e for i, e in enumerate(item) if i not in list(range(match.span(0)[0], match.span(0)[1]))])
+
+        print(f"Adapted {old_item} to {item}")
+
+    return item
+
 
 if __name__ == '__main__': 
     parser = argparse.ArgumentParser("Sort your shopping list by the sections of the supermarket")
@@ -44,10 +55,19 @@ if __name__ == '__main__':
                 print(f"# Ignore comment: {item}")
                 continue
 
-            match = re.search(r"^[^\(]*([0-9]+[ ]*[kK]*g)", item)
+            match = re.search(r"(\([en]\))", item)
+            item = remove_match(item, match)
+
+            match = re.search(r"^[^\(]*([0-9]+[ ]*[kK]*g) ", item)
             item = append_match_to_bracket(item, match)
 
-            match = re.search(r"^[^\(]*([0-9]+[ ]*[mM]*l)", item)
+            match = re.search(r"^[^\(]*([0-9]+[ ]*[mM]*l) ", item)
+            item = append_match_to_bracket(item, match)
+
+            match = re.search(r"^[^\(]*([0-9]+[ ]*[TE]L) ", item)
+            item = append_match_to_bracket(item, match)
+
+            match = re.search(r"^[^\(]*([0-9]+) ", item)
             item = append_match_to_bracket(item, match)
 
             match = re.search(r"^[^\(]*(grün[e]*)", item)
@@ -56,6 +76,39 @@ if __name__ == '__main__':
             match = re.search(r"^[^\(]*(gemischt[es]*)", item)
             item = append_match_to_bracket(item, match)
 
+            match = re.search(r"(granuliert)", item)
+            item = append_match_to_bracket(item, match)
+
+            match = re.search(r"(Bio-)", item)
+            item = append_match_to_bracket(item, match)
+
+            match = re.search(r"(unbehandelt)", item)
+            item = append_match_to_bracket(item, match)
+
+            match = re.search(r"(große) ", item)
+            item = append_match_to_bracket(item, match)
+
+            match = re.search(r"(schwarzer) ", item)
+            item = append_match_to_bracket(item, match)
+
+            match = re.search(r"(weißer) ", item)
+            item = append_match_to_bracket(item, match)
+
+            item_cleaned = []
+            bracket_pos = item.find('(')
+            bracket_pos = bracket_pos if bracket_pos > 0 else len(item)
+            for i in range(bracket_pos):
+                s = item[i]
+                if s != ',':
+                    item_cleaned.append(s)
+            item_cleaned += item[bracket_pos:]
+            item = ''.join(item_cleaned)
+
+
+            while item[0] == ' ':
+                item = item[1:]
+
+                              
             cleaned_list.append(item)
 
         print("## Cleaned List ##\n")

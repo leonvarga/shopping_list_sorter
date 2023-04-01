@@ -105,6 +105,7 @@ if __name__ == '__main__':
             item_section = find_item_section(item_simplified, db)
 
             while item_section is None:
+                print(f"'{item}'")
                 print(f"# {item} not found in item db")
                 ui_add_new = ask_user_decision("? Add a new item? (y/n/e)", ['y', 'n', 'e'])
 
