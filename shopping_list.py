@@ -134,7 +134,7 @@ if __name__ == '__main__':
                     save_db(db)
 
                 else:
-                    print(f"! Ignore {item} for shopping list")
+                    print(f"! Ignore {item} for sorted shopping list")
                     break
 
             item_section_map.append({'item': item, 'section': item_section})
@@ -147,11 +147,20 @@ if __name__ == '__main__':
         
         print("\n\n\t### Sorted Shopping List ###")
         for cur_section in section_order:
-            print(f"## Section: {db['sections'][cur_section]}")
+            items_in_section = []
             for item_mapping in item_section_map:
-                if int(item_mapping['section']) == int(cur_section):
+                if item_mapping['section'] is not None and int(item_mapping['section']) == int(cur_section):
+                    items_in_section.append(item_mapping['item'])
+            if len(items_in_section) > 0:
+                print(f"## Section: {db['sections'][cur_section]}")
+                for item in items_in_section:
+                    print(item)
+                print()
+        if len([i for i in item_section_map if i['section'] is None]) > 0:
+            print("## Unsorted")
+            for item_mapping in item_section_map:
+                if item_mapping['section'] is None:
                     print(item_mapping['item'])
-            print()
     else:
         print("# No shopping list")
 
