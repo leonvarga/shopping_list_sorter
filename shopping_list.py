@@ -129,7 +129,7 @@ if __name__ == '__main__':
                     opt.override_section_order = True
                     if len(db['section_order']) > 0:
                         db['section_order_old'] = db['section_order']
-                    db['section_order'] = []
+                        db['section_order'] = []
 
                     save_db(db)
 

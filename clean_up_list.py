@@ -113,5 +113,9 @@ if __name__ == '__main__':
 
         print("## Cleaned List ##\n")
         print("\n".join(cleaned_list))
+        open("/tmp/list_cleaned", 'w').write("\n".join(cleaned_list))
+
+
+
 
 
