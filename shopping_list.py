@@ -120,18 +120,19 @@ if __name__ == '__main__':
                         db['sections'].append(ui_section_name)
                         ui_section = len(db['sections']) - 1 
 
-                    db['items'].append(
-                        {
-                            'name': item_simplified,
-                            'section': int(ui_section)
-                        })
-                    item_section = ui_section
-                    opt.override_section_order = True
-                    if len(db['section_order']) > 0:
-                        db['section_order_old'] = db['section_order']
-                        db['section_order'] = []
+                        db['items'].append(
+                            {
+                                'name': item_simplified,
+                                'section': int(ui_section)
+                            })
 
-                    save_db(db)
+                        opt.override_section_order = True
+                        if len(db['section_order']) > 0:
+                            db['section_order_old'] = db['section_order']
+                            db['section_order'] = []
+                        save_db(db)
+
+                    item_section = ui_section
 
                 else:
                     print(f"! Ignore {item} for sorted shopping list")
