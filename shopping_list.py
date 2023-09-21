@@ -130,7 +130,7 @@ if __name__ == '__main__':
                         if len(db['section_order']) > 0:
                             db['section_order_old'] = db['section_order']
                             db['section_order'] = []
-                        save_db(db)
+                    save_db(db)
 
                     item_section = ui_section
 
