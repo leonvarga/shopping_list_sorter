@@ -185,6 +185,7 @@ if __name__ == '__main__':
                     items_in_section.append(item_mapping['item'])
             if len(items_in_section) > 0:
                 print(f"## Section: {db['sections'][cur_section]}")
+                items_in_section = sorted(items_in_section)
                 for item in items_in_section:
                     print(item)
                 print()
