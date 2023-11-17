@@ -190,11 +190,16 @@ if __name__ == '__main__':
                     print(item)
                 print()
 
-        if len([i for i in item_section_map if not (i['section'] in section_order or i['section'] is None)]) > 0:
+        missing_section_items = []
+        for item_mapping in item_section_map:
+            if not (item_mapping['section'] in section_order or item_mapping['section'] is None):
+                print(item_mapping)
+                missing_section_items.append(item_mapping['item'])
+
+        if len(missing_section_items) > 0:
             print("## Missing section")
-            for item_mapping in item_section_map:
-                if not (item_mapping['section'] in section_order or item_mapping['section'] is None):
-                    print(item_mapping['item'])
+            for m in missing_section_items:
+                print(m)
 
         if len([i for i in item_section_map if i['section'] is None]) > 0:
             print("## Unsorted")
